@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scraping Results - {{ keyword }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #f0f9ff, #e0f7fa);
+            text-align: center;
+            padding: 40px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        th {
+            background: #4CAF50;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background: #f1f1f1;
+        }
+        a {
+            text-decoration: none;
+            color: #ff9800;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #e68900;
+        }
+        .back-link {
+            margin-top: 20px;
+            display: inline-block;
+            background: #607d8b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            background: #546e7a;
+        }
+    </style>
+</head>
+<body>
+    <h1>Results for "{{ keyword }}" in {{ pincode }}</h1>
+
+    {% if results %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Available Variants</th>
+                    <th>Out of Stock Variants</th>
+                    <th>URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in results %}
+                <tr>
+                    <td>{{ item.product_name }}</td>
+                    <td>{{ item.available_variants|join:", " }}</td>
+                    <td>{{ item.out_of_stock_variants|join:", " }}</td>
+                    <td><a href="{{ item.url }}" target="_blank">View</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No products found.</p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'home' %}" class="back-link">🔙 New Search</a>
+</body>
+</html>
